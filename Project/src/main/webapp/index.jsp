@@ -31,7 +31,7 @@
 		</table>
     </div>
     
-        <div id="statsTable77">
+        <div id="statsTable87">
     	<table id="stats" class="stats">
     		<tbody></tbody>
 		</table>
