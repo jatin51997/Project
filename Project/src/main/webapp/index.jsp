@@ -25,7 +25,7 @@
 
   
     
-    <div id="statsTable">
+    <div id="statsTableTest">
     	<table id="stats" class="stats">
     		<tbody></tbody>
 		</table>
