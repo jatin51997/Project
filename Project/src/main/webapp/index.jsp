@@ -30,8 +30,13 @@
     		<tbody></tbody>
 		</table>
     </div>
+    <div id="statsTable">
+    	<table id="stats" class="stats">
+    		<tbody></tbody>
+		</table>
+    </div>
     
-        <div id="statsTable3">
+        <div id="statsTable8">
     	<table id="stats" class="stats">
     		<tbody></tbody>
 		</table>
