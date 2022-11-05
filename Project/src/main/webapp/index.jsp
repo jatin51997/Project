@@ -31,6 +31,12 @@
 		</table>
     </div>
     
+        <div id="statsTable3">
+    	<table id="stats" class="stats">
+    		<tbody></tbody>
+		</table>
+    </div>
+    
 
     
 </body>
