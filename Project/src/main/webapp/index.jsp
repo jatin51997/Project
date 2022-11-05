@@ -36,7 +36,10 @@
 		</table>
     </div>
     
+<<<<<<< HEAD
        
+=======
+>>>>>>> branch 'master' of https://github.com/jatin51997/Project
         <div id="statsTable87">
     	<table id="stats" class="stats">
     		<tbody></tbody>
