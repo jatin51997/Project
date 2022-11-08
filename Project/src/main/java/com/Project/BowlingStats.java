@@ -1,29 +1,38 @@
 package com.Project;
 
-public class BowlingStats extends PlayerInfo implements FormatInfo {
+public class BowlingStats extends PlayerInfo implements FormatInfo, Average {
 	private int innings;
 	private int wickets;
 	private int fiveWickets;
-	private double economy;
+	private double average;
 	private double strikeRate;
 	private PlayerInfo player;
 	private int formatId;
 	private String formatName;
+	private int runs;
 
 	BowlingStats() {
 
 	}
 
-	BowlingStats(PlayerInfo player, int innings, int wickets, int fiveWickets, double economy, double strikeRate,
-			int formatId, String formatName) {
+	BowlingStats(PlayerInfo player, int innings, int wickets, int fiveWickets, double strikeRate, int formatId,
+			String formatName, int runs) {
 		this.player = player;
 		this.innings = innings;
 		this.wickets = wickets;
 		this.fiveWickets = fiveWickets;
-		this.economy = economy;
 		this.strikeRate = strikeRate;
 		this.formatId = formatId;
 		this.formatName = formatName;
+		this.runs = runs;
+	}
+
+	public int getRuns() {
+		return runs;
+	}
+
+	public void setRuns(int runs) {
+		this.runs = runs;
 	}
 
 	@Override
@@ -70,14 +79,6 @@ public class BowlingStats extends PlayerInfo implements FormatInfo {
 		this.fiveWickets = fiveWickets;
 	}
 
-	public double getEconomy() {
-		return economy;
-	}
-
-	public void setEconomy(double economy) {
-		this.economy = economy;
-	}
-
 	public double getStrikeRate() {
 		return strikeRate;
 	}
@@ -95,9 +96,16 @@ public class BowlingStats extends PlayerInfo implements FormatInfo {
 	}
 
 	public String toString() {
-		return this.player.toString() + "\n" + "innings: " + this.innings + "\n economy: " + this.economy
+		return this.player.toString() + "\n" + "innings: " + this.innings + "\n average: " + this.average
 				+ "\n wickets: " + this.wickets + "\n fiveWickets: " + this.fiveWickets + "\n strikeRate: "
 				+ this.strikeRate + "\n formatId: " + this.formatId + "\n formatName: " + this.formatName;
+	}
+
+	@Override
+	public double getAverage() {
+		this.average = (this.runs) / (this.wickets);
+		return this.average;
+
 	}
 
 }

@@ -1,0 +1,1117 @@
+.open project.db
+
+delete from playerinfo;
+delete from battingstats;
+delete from teaminfo;
+delete from bowlingstats;
+delete from rankings;
+
+1. Table TeamInfo
+TeamID, TeamName
+
+CREATE TABLE TEAMINFO(
+    TEAMID INTEGER PRIMARY KEY,
+    TEAMNAME VARCHAR (200)
+    );
+
+2. Table PlayerInfo
+PlayerID, PlayerName, TeamID, Type
+
+CREATE TABLE PLAYERINFO(
+    PLAYERID INTEGER PRIMARY KEY,
+    TEAMID INTEGER,
+    PLAYERNAME VARCHAR (200),
+    TYPE VARCHAR(200),
+    FOREIGN KEY (TEAMID) REFERENCES TEAMINFO (TEAMID)
+    );
+
+3. Table BattingStats
+PlayerID, TeamID, Innings,Runs,Highest,Average,SR, FormatID
+
+CREATE TABLE BATTINGSTATS(
+    PLAYERID INTEGER,
+    FORMATID INTEGER,
+    INNINGS INTEGER,
+    RUNS INTEGER ,
+    HIGHEST INTEGER ,
+    AVERAGE INTEGER,
+    SR INTEGER,
+    NOTOUTS INTEGER,
+    FOREIGN KEY (PLAYERID) REFERENCES PLAYERINFO (PLAYERID),
+    FOREIGN KEY (FORMATID) REFERENCES FORMATINFO (FORMATID)
+    );
+
+4. Table BowlingStats
+PlayerID, TeamID, Innings, Wickets,5w, Eco, SR, FormatID
+
+CREATE TABLE BOWLINGSTATS(
+    PLAYERID INTEGER,
+    FORMATID INTEGER,
+    INNINGS INTEGER,
+    WICKETS INTEGER ,
+    FIVEWICKETS INTEGER ,
+    AVERAGE INTEGER,
+    SR INTEGER,
+    RUNS INTEGER,
+    FOREIGN KEY (PLAYERID) REFERENCES PLAYERINFO (PLAYERID),
+    FOREIGN KEY (FORMATID) REFERENCES FORMATINFO (FORMATID)
+    );
+
+5. Table FormatInfo
+FormatID, FormatName
+
+CREATE TABLE FORMATINFO(
+    FORMATID INTEGER PRIMARY KEY,
+    FORMATNAME VARCHAR(200)
+    );
+
+sqlite> insert into formatinfo values (0,'TEST');
+sqlite> insert into formatinfo values (1,'ODI');
+sqlite> insert into formatinfo values (2,'T20');
+
+6. Table Rankings
+TeamID, Rank, FormatID
+
+CREATE TABLE RANKINGS(
+    TEAMID INTEGER,
+    FORMATID INTEGER,
+    RANK INTEGER,
+    RATING INTEGER,
+    POINTS INTEGER,
+    FOREIGN KEY (FORMATID) REFERENCES FORMATINFO (FORMATID),
+    FOREIGN KEY (TEAMID) REFERENCES TEAMINFO (TEAMID)
+    );
+
+
+1. Team ID's of India and Australia
+HttpRequest request = HttpRequest.newBuilder()
+		.uri(URI.create("https://cricbuzz-cricket.p.rapidapi.com/teams/v1/international"))
+		.header("X-RapidAPI-Key", "8a3a579825mshd663133c8f17321p10734ajsn3f05a0ccd612")
+		.header("X-RapidAPI-Host", "cricbuzz-cricket.p.rapidapi.com")
+		.method("GET", HttpRequest.BodyPublishers.noBody())
+		.build();
+
+        {
+            "list": [
+              {
+                "teamName": "Test Teams"
+              },
+              {
+                "teamId": 2,
+                "teamName": "India",
+                "teamSName": "IND",
+                "imageId": 172115,
+                "countryName": "India"
+              },
+              {
+                "teamId": 96,
+                "teamName": "Afghanistan",
+                "teamSName": "AFG",
+                "imageId": 172188
+              },
+              {
+                "teamId": 27,
+                "teamName": "Ireland",
+                "teamSName": "IRE",
+                "imageId": 172141
+              },
+              {
+                "teamId": 3,
+                "teamName": "Pakistan",
+                "teamSName": "PAK",
+                "imageId": 172116
+              },
+              {
+                "teamId": 4,
+                "teamName": "Australia",
+                "teamSName": "AUS",
+                "imageId": 172117
+              },
+              {
+                "teamId": 5,
+                "teamName": "Sri Lanka",
+                "teamSName": "SL",
+                "imageId": 172119
+              },
+              {
+                "teamId": 6,
+                "teamName": "Bangladesh",
+                "teamSName": "BAN",
+                "imageId": 172120
+              },
+              {
+                "teamId": 9,
+                "teamName": "England",
+                "teamSName": "ENG",
+                "imageId": 172123
+              },
+              {
+                "teamId": 10,
+                "teamName": "West Indies",
+                "teamSName": "WI",
+                "imageId": 172124
+              },
+              {
+                "teamId": 11,
+                "teamName": "South Africa",
+                "teamSName": "RSA",
+                "imageId": 172126
+              },
+              {
+                "teamId": 12,
+                "teamName": "Zimbabwe",
+                "teamSName": "ZIM",
+                "imageId": 172127
+              },
+              {
+                "teamId": 13,
+                "teamName": "New Zealand",
+                "teamSName": "NZ",
+                "imageId": 172128
+              },
+              {
+                "teamName": "Associate Teams"
+              },
+              {
+                "teamId": 71,
+                "teamName": "Malaysia",
+                "teamSName": "MLY",
+                "imageId": 172168
+              },
+              {
+                "teamId": 72,
+                "teamName": "Nepal",
+                "teamSName": "NEP",
+                "imageId": 172169
+              },
+              {
+                "teamId": 77,
+                "teamName": "Germany",
+                "teamSName": "GER",
+                "imageId": 172171
+              },
+              {
+                "teamId": 161,
+                "teamName": "Namibia",
+                "teamSName": "NAM",
+                "imageId": 172229
+              },
+              {
+                "teamId": 185,
+                "teamName": "Denmark",
+                "teamSName": "DEN",
+                "imageId": 172245
+              },
+              {
+                "teamId": 190,
+                "teamName": "Singapore",
+                "teamSName": "SIN",
+                "imageId": 172250
+              },
+              {
+                "teamId": 287,
+                "teamName": "Papua New Guinea",
+                "teamSName": "PNG",
+                "imageId": 172336
+              },
+              {
+                "teamId": 298,
+                "teamName": "Kuwait",
+                "teamSName": "KUW",
+                "imageId": 172347
+              },
+              {
+                "teamId": 300,
+                "teamName": "Vanuatu",
+                "teamSName": "VAN",
+                "imageId": 172349
+              },
+              {
+                "teamId": 303,
+                "teamName": "Jersey",
+                "teamSName": "JER",
+                "imageId": 172352
+              },
+              {
+                "teamId": 304,
+                "teamName": "Oman",
+                "teamSName": "OMAN",
+                "imageId": 172353
+              },
+              {
+                "teamId": 343,
+                "teamName": "Fiji",
+                "teamSName": "FIJI",
+                "imageId": 172391
+              },
+              {
+                "teamId": 527,
+                "teamName": "Italy",
+                "teamSName": "ITA",
+                "imageId": 172577
+              },
+              {
+                "teamId": 529,
+                "teamName": "Botswana",
+                "teamSName": "BW",
+                "imageId": 172579
+              },
+              {
+                "teamId": 541,
+                "teamName": "Belgium",
+                "teamSName": "BEL",
+                "imageId": 172592
+              },
+              {
+                "teamId": 44,
+                "teamName": "Uganda",
+                "teamSName": "UGA",
+                "imageId": 172151
+              },
+              {
+                "teamId": 26,
+                "teamName": "Canada",
+                "teamSName": "CAN",
+                "imageId": 172140
+              },
+              {
+                "teamId": 7,
+                "teamName": "United Arab Emirates",
+                "teamSName": "UAE",
+                "imageId": 172121
+              },
+              {
+                "teamId": 8,
+                "teamName": "Hong Kong",
+                "teamSName": "HK",
+                "imageId": 172122
+              },
+              {
+                "teamId": 14,
+                "teamName": "Kenya",
+                "teamSName": "KEN",
+                "imageId": 172129
+              },
+              {
+                "teamId": 15,
+                "teamName": "United States",
+                "teamSName": "USA",
+                "imageId": 172130
+              },
+              {
+                "teamId": 23,
+                "teamName": "Scotland",
+                "teamSName": "SCO",
+                "imageId": 172137
+              },
+              {
+                "teamId": 24,
+                "teamName": "Netherlands",
+                "teamSName": "NED",
+                "imageId": 172138
+              },
+              {
+                "teamId": 25,
+                "teamName": "Bermuda",
+                "teamSName": "BER",
+                "imageId": 172139
+              },
+              {
+                "teamId": 675,
+                "teamName": "Iran",
+                "teamSName": "IRN",
+                "imageId": 188163
+              }
+            ],
+            "appIndex": {
+              "seoTitle": "Live cricket scores, schedule, news, archive, series | Cricbuzz.com",
+              "webURL": "www.cricbuzz.com/cricket-team/"
+            }
+          }
+       
+2. player info          
+
+HttpRequest request = HttpRequest.newBuilder()
+		.uri(URI.create("https://cricbuzz-cricket.p.rapidapi.com/teams/v1/2/players"))
+		.header("X-RapidAPI-Key", "8a3a579825mshd663133c8f17321p10734ajsn3f05a0ccd612")
+		.header("X-RapidAPI-Host", "cricbuzz-cricket.p.rapidapi.com")
+		.method("GET", HttpRequest.BodyPublishers.noBody())
+		.build();
+HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());
+
+{
+    "player": [
+      {
+        "name": "BATSMEN",
+        "imageId": 174146
+      },
+      {
+        "id": "1413",
+        "name": "Virat Kohli",
+        "imageId": 244980,
+        "battingStyle": "Right-hand bat",
+        "bowlingStyle": "Right-arm medium"
+      },
+      {
+        "id": "576",
+        "name": "Rohit Sharma",
+        "imageId": 244982,
+        "battingStyle": "Right-hand bat",
+        "bowlingStyle": "Right-arm offbreak"
+      },
+      {
+        "id": "1446",
+        "name": "Shikhar Dhawan",
+        "imageId": 170660,
+        "battingStyle": "Left-hand bat",
+        "bowlingStyle": "Right-arm offbreak"
+      },
+      {
+        "id": "11808",
+        "name": "Shubman Gill",
+        "imageId": 171042,
+        "battingStyle": "Right-hand bat",
+        "bowlingStyle": "Right-arm offbreak"
+      },
+      {
+        "id": "9428",
+        "name": "Shreyas Iyer",
+        "imageId": 171024,
+        "battingStyle": "Right-hand bat",
+        "bowlingStyle": "Right-arm legbreak"
+      },
+      {
+        "id": "1836",
+        "name": "Manish Pandey",
+        "imageId": 171022,
+        "battingStyle": "Right-hand bat",
+        "bowlingStyle": "Right-arm medium"
+      },
+      {
+        "id": "2195",
+        "name": "Mayank Agarwal",
+        "imageId": 171091,
+        "battingStyle": "Right-hand bat"
+      },
+      {
+        "id": "12094",
+        "name": "Prithvi Shaw",
+        "imageId": 171030,
+        "battingStyle": "Right-hand bat",
+        "bowlingStyle": "Right-arm offbreak"
+      },
+      {
+        "id": "1448",
+        "name": "Cheteshwar Pujara",
+        "imageId": 153263,
+        "battingStyle": "Right-hand bat",
+        "bowlingStyle": "Right-arm legbreak"
+      },
+      {
+        "id": "1447",
+        "name": "Ajinkya Rahane",
+        "imageId": 171082,
+        "battingStyle": "Right-hand bat",
+        "bowlingStyle": "Right-arm medium"
+      },
+      {
+        "name": "ALL ROUNDER",
+        "imageId": 174146
+      },
+      {
+        "id": "9647",
+        "name": "Hardik Pandya",
+        "imageId": 244973,
+        "battingStyle": "Right-hand bat",
+        "bowlingStyle": "Right-arm fast-medium"
+      },
+      {
+        "id": "8424",
+        "name": "Hanuma Vihari",
+        "imageId": 171080,
+        "battingStyle": "Right-hand bat",
+        "bowlingStyle": "Right-arm offbreak"
+      },
+      {
+        "id": "587",
+        "name": "Ravindra Jadeja",
+        "imageId": 170670,
+        "battingStyle": "Left-hand bat",
+        "bowlingStyle": "Left-arm orthodox"
+      },
+      {
+        "id": "1593",
+        "name": "Ravichandran Ashwin",
+        "imageId": 244976,
+        "battingStyle": "Right-hand bat",
+        "bowlingStyle": "Right-arm offbreak"
+      },
+      {
+        "name": "WICKET KEEPER",
+        "imageId": 174146
+      },
+      {
+        "id": "8733",
+        "name": "KL Rahul",
+        "imageId": 244975,
+        "battingStyle": "Right-hand bat"
+      },
+      {
+        "id": "8271",
+        "name": "Sanju Samson",
+        "imageId": 226289,
+        "battingStyle": "Right-hand bat"
+      },
+      {
+        "id": "1465",
+        "name": "Wriddhiman Saha",
+        "imageId": 171058,
+        "battingStyle": "Right-hand bat"
+      },
+      {
+        "id": "10744",
+        "name": "Rishabh Pant",
+        "imageId": 244978,
+        "battingStyle": "Left-hand bat"
+      },
+      {
+        "name": "BOWLER",
+        "imageId": 174146
+      },
+      {
+        "id": "7909",
+        "name": "Mohammed Shami",
+        "imageId": 244977,
+        "battingStyle": "Right-hand bat",
+        "bowlingStyle": "Right-arm fast-medium"
+      },
+      {
+        "id": "9311",
+        "name": "Jasprit Bumrah",
+        "imageId": 170685,
+        "battingStyle": "Right-hand bat",
+        "bowlingStyle": "Right-arm fast"
+      },
+      {
+        "id": "8292",
+        "name": "Kuldeep Yadav",
+        "imageId": 170683,
+        "battingStyle": "Left-hand bat",
+        "bowlingStyle": "Left-arm chinaman"
+      },
+      {
+        "id": "7910",
+        "name": "Yuzvendra Chahal",
+        "imageId": 244981,
+        "battingStyle": "Right-hand bat",
+        "bowlingStyle": "Right-arm legbreak"
+      },
+      {
+        "id": "9715",
+        "name": "Navdeep Saini",
+        "imageId": 226400,
+        "battingStyle": "Right-hand bat",
+        "bowlingStyle": "Right-arm fast"
+      },
+      {
+        "id": "8683",
+        "name": "Shardul Thakur",
+        "imageId": 226224,
+        "battingStyle": "Right-hand bat",
+        "bowlingStyle": "Right-arm fast-medium"
+      },
+      {
+        "id": "1858",
+        "name": "Umesh Yadav",
+        "imageId": 153874,
+        "battingStyle": "Right-hand bat",
+        "bowlingStyle": "Right-arm fast"
+      },
+      {
+        "id": "10808",
+        "name": "Mohammed Siraj",
+        "imageId": 171039,
+        "battingStyle": "Right-hand bat",
+        "bowlingStyle": "Right-arm fast-medium"
+      }
+    ]
+  }
+
+3. BattingStats
+
+HttpRequest request = HttpRequest.newBuilder()
+		.uri(URI.create("https://cricbuzz-cricket.p.rapidapi.com/stats/v1/player/1413/batting"))
+		.header("X-RapidAPI-Key", "8a3a579825mshd663133c8f17321p10734ajsn3f05a0ccd612")
+		.header("X-RapidAPI-Host", "cricbuzz-cricket.p.rapidapi.com")
+		.method("GET", HttpRequest.BodyPublishers.noBody())
+		.build();
+HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());
+
+{
+    "headers": [
+      "ROWHEADER",
+      "Test",
+      "ODI",
+      "T20",
+      "IPL"
+    ],
+    "values": [
+      {
+        "values": [
+          "Matches",
+          "102",
+          "262",
+          "112",
+          "223"
+        ]
+      },
+      {
+        "values": [
+          "Innings",
+          "173",
+          "253",
+          "104",
+          "215"
+        ]
+      },
+      {
+        "values": [
+          "Runs",
+          "8074",
+          "12344",
+          "3868",
+          "6624"
+        ]
+      },
+      {
+        "values": [
+          "Balls",
+          "14499",
+          "13296",
+          "2796",
+          "5129"
+        ]
+      },
+      {
+        "values": [
+          "Highest",
+          "254",
+          "183",
+          "122",
+          "113"
+        ]
+      },
+      {
+        "values": [
+          "Average",
+          "49.53",
+          "57.68",
+          "52.27",
+          "36.2"
+        ]
+      },
+      {
+        "values": [
+          "SR",
+          "55.69",
+          "92.84",
+          "138.34",
+          "129.15"
+        ]
+      },
+      {
+        "values": [
+          "Not Out",
+          "10",
+          "39",
+          "30",
+          "32"
+        ]
+      },
+      {
+        "values": [
+          "Fours",
+          "910",
+          "1159",
+          "342",
+          "578"
+        ]
+      },
+      {
+        "values": [
+          "Sixes",
+          "24",
+          "126",
+          "115",
+          "218"
+        ]
+      },
+      {
+        "values": [
+          "Ducks",
+          "14",
+          "15",
+          "4",
+          "9"
+        ]
+      },
+      {
+        "values": [
+          "50s",
+          "28",
+          "64",
+          "35",
+          "44"
+        ]
+      },
+      {
+        "values": [
+          "100s",
+          "27",
+          "43",
+          "1",
+          "5"
+        ]
+      },
+      {
+        "values": [
+          "200s",
+          "7",
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      {
+        "values": [
+          "300s",
+          "0",
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      {
+        "values": [
+          "400s",
+          "0",
+          "0",
+          "0",
+          "0"
+        ]
+      }
+    ],
+    "appIndex": {
+      "seoTitle": "Virat Kohli Profile - Cricbuzz | Cricbuzz.com",
+      "webURL": "http://www.cricbuzz.com/profiles/1413/virat-kohli"
+    },
+    "seriesSpinner": [
+      {
+        "seriesName": "Career"
+      },
+      {
+        "seriesId": 3961,
+        "seriesName": "ICC Mens T20 World Cup 2022"
+      }
+    ]
+  }
+
+4. BowlingStats
+HttpRequest request = HttpRequest.newBuilder()
+		.uri(URI.create("https://cricbuzz-cricket.p.rapidapi.com/stats/v1/player/10808/bowling"))
+		.header("X-RapidAPI-Key", "8a3a579825mshd663133c8f17321p10734ajsn3f05a0ccd612")
+		.header("X-RapidAPI-Host", "cricbuzz-cricket.p.rapidapi.com")
+		.method("GET", HttpRequest.BodyPublishers.noBody())
+		.build();
+HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());  
+{
+    "headers": [
+      "ROWHEADER",
+      "Test",
+      "ODI",
+      "T20",
+      "IPL"
+    ],
+    "values": [
+      {
+        "values": [
+          "Matches",
+          "13",
+          "13",
+          "6",
+          "65"
+        ]
+      },
+      {
+        "values": [
+          "Innings",
+          "25",
+          "13",
+          "6",
+          "65"
+        ]
+      },
+      {
+        "values": [
+          "Balls",
+          "2230",
+          "642",
+          "144",
+          "1334"
+        ]
+      },
+      {
+        "values": [
+          "Runs",
+          "1231",
+          "509",
+          "253",
+          "1951"
+        ]
+      },
+      {
+        "values": [
+          "Maidens",
+          "75",
+          "11",
+          "0",
+          "4"
+        ]
+      },
+      {
+        "values": [
+          "Wickets",
+          "40",
+          "18",
+          "5",
+          "59"
+        ]
+      },
+      {
+        "values": [
+          "Avg",
+          "30.77",
+          "28.28",
+          "50.6",
+          "33.07"
+        ]
+      },
+      {
+        "values": [
+          "Eco",
+          "3.31",
+          "4.76",
+          "10.54",
+          "8.78"
+        ]
+      },
+      {
+        "values": [
+          "SR",
+          "55.75",
+          "35.67",
+          "28.8",
+          "22.61"
+        ]
+      },
+      {
+        "values": [
+          "BBI",
+          "5/73",
+          "3/29",
+          "1/22",
+          "4/32"
+        ]
+      },
+      {
+        "values": [
+          "BBM",
+          "8/126",
+          "3/29",
+          "1/22",
+          "4/32"
+        ]
+      },
+      {
+        "values": [
+          "4w",
+          "3",
+          "0",
+          "0",
+          "1"
+        ]
+      },
+      {
+        "values": [
+          "5w",
+          "1",
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      {
+        "values": [
+          "10w",
+          "0",
+          "0",
+          "0",
+          "0"
+        ]
+      }
+    ],
+    "appIndex": {
+      "seoTitle": "Mohammed Siraj Profile - Cricbuzz | Cricbuzz.com",
+      "webURL": "http://www.cricbuzz.com/profiles/10808/mohammed-siraj"
+    },
+    "seriesSpinner": [
+      {
+        "seriesName": "Career"
+      },
+      {
+        "seriesId": 4527,
+        "seriesName": "Syed Mushtaq Ali Trophy 2022"
+      }
+    ]
+  }
+
+5. Rankings
+Test    
+HttpRequest request = HttpRequest.newBuilder()
+		.uri(URI.create("https://cricbuzz-cricket.p.rapidapi.com/stats/v1/rankings/teams?formatType=test"))
+		.header("X-RapidAPI-Key", "8a3a579825mshd663133c8f17321p10734ajsn3f05a0ccd612")
+		.header("X-RapidAPI-Host", "cricbuzz-cricket.p.rapidapi.com")
+		.method("GET", HttpRequest.BodyPublishers.noBody())
+		.build();
+HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());  
+
+HttpRequest request = HttpRequest.newBuilder()
+		.uri(URI.create("https://cricbuzz-cricket.p.rapidapi.com/stats/v1/rankings/teams?formatType=odi"))
+		.header("X-RapidAPI-Key", "8a3a579825mshd663133c8f17321p10734ajsn3f05a0ccd612")
+		.header("X-RapidAPI-Host", "cricbuzz-cricket.p.rapidapi.com")
+		.method("GET", HttpRequest.BodyPublishers.noBody())
+		.build();
+HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());  
+
+HttpRequest request = HttpRequest.newBuilder()
+		.uri(URI.create("https://cricbuzz-cricket.p.rapidapi.com/stats/v1/rankings/teams?formatType=t20"))
+		.header("X-RapidAPI-Key", "8a3a579825mshd663133c8f17321p10734ajsn3f05a0ccd612")
+		.header("X-RapidAPI-Host", "cricbuzz-cricket.p.rapidapi.com")
+		.method("GET", HttpRequest.BodyPublishers.noBody())
+		.build();
+HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());  
+
+{
+    "rank": [
+      {
+        "id": "9",
+        "rank": "1",
+        "name": "England",
+        "rating": "119",
+        "matches": "27",
+        "points": "3226",
+        "lastUpdatedOn": "2022-11-01",
+        "imageId": "172123"
+      },
+      {
+        "id": "13",
+        "rank": "2",
+        "name": "New Zealand",
+        "rating": "114",
+        "matches": "22",
+        "points": "2508",
+        "lastUpdatedOn": "2022-11-01",
+        "imageId": "172128"
+      },
+      {
+        "id": "2",
+        "rank": "3",
+        "name": "India",
+        "rating": "112",
+        "matches": "34",
+        "points": "3802",
+        "lastUpdatedOn": "2022-11-01",
+        "imageId": "172115"
+      },
+      {
+        "id": "3",
+        "rank": "4",
+        "name": "Pakistan",
+        "rating": "107",
+        "matches": "22",
+        "points": "2354",
+        "lastUpdatedOn": "2022-11-01",
+        "imageId": "172116"
+      },
+      {
+        "id": "4",
+        "rank": "5",
+        "name": "Australia",
+        "rating": "106",
+        "matches": "29",
+        "points": "3071",
+        "lastUpdatedOn": "2022-11-01",
+        "imageId": "172117"
+      },
+      {
+        "id": "11",
+        "rank": "6",
+        "name": "South Africa",
+        "rating": "100",
+        "matches": "24",
+        "points": "2392",
+        "lastUpdatedOn": "2022-11-01",
+        "imageId": "172126"
+      },
+      {
+        "id": "6",
+        "rank": "7",
+        "name": "Bangladesh",
+        "rating": "92",
+        "matches": "30",
+        "points": "2753",
+        "lastUpdatedOn": "2022-11-01",
+        "imageId": "172120"
+      },
+      {
+        "id": "5",
+        "rank": "8",
+        "name": "Sri Lanka",
+        "rating": "92",
+        "matches": "29",
+        "points": "2658",
+        "lastUpdatedOn": "2022-11-01",
+        "imageId": "172119"
+      },
+      {
+        "id": "10",
+        "rank": "9",
+        "name": "West Indies",
+        "rating": "71",
+        "matches": "41",
+        "points": "2902",
+        "lastUpdatedOn": "2022-11-01",
+        "imageId": "172124"
+      },
+      {
+        "id": "96",
+        "rank": "10",
+        "name": "Afghanistan",
+        "rating": "69",
+        "matches": "18",
+        "points": "1238",
+        "lastUpdatedOn": "2022-11-01",
+        "imageId": "172188"
+      },
+      {
+        "id": "27",
+        "rank": "11",
+        "name": "Ireland",
+        "rating": "53",
+        "matches": "23",
+        "points": "1214",
+        "lastUpdatedOn": "2022-11-01",
+        "imageId": "172141"
+      },
+      {
+        "id": "23",
+        "rank": "12",
+        "name": "Scotland",
+        "rating": "46",
+        "matches": "27",
+        "points": "1254",
+        "lastUpdatedOn": "2022-11-01",
+        "imageId": "172137"
+      },
+      {
+        "id": "12",
+        "rank": "13",
+        "name": "Zimbabwe",
+        "rating": "42",
+        "matches": "26",
+        "points": "1098",
+        "lastUpdatedOn": "2022-11-01",
+        "imageId": "172127"
+      },
+      {
+        "id": "161",
+        "rank": "14",
+        "name": "Namibia",
+        "rating": "34",
+        "matches": "19",
+        "points": "642",
+        "lastUpdatedOn": "2022-11-01",
+        "imageId": "172229"
+      },
+      {
+        "id": "24",
+        "rank": "15",
+        "name": "Netherlands",
+        "rating": "32",
+        "matches": "21",
+        "points": "673",
+        "lastUpdatedOn": "2022-11-01",
+        "imageId": "172138"
+      },
+      {
+        "id": "7",
+        "rank": "16",
+        "name": "UAE",
+        "rating": "32",
+        "matches": "22",
+        "points": "697",
+        "lastUpdatedOn": "2022-11-01",
+        "imageId": "172121"
+      },
+      {
+        "id": "304",
+        "rank": "17",
+        "name": "Oman",
+        "rating": "31",
+        "matches": "30",
+        "points": "919",
+        "lastUpdatedOn": "2022-11-01",
+        "imageId": "172353"
+      },
+      {
+        "id": "15",
+        "rank": "18",
+        "name": "United States",
+        "rating": "24",
+        "matches": "27",
+        "points": "641",
+        "lastUpdatedOn": "2022-11-01",
+        "imageId": "172130"
+      },
+      {
+        "id": "72",
+        "rank": "19",
+        "name": "Nepal",
+        "rating": "15",
+        "matches": "22",
+        "points": "331",
+        "lastUpdatedOn": "2022-11-01",
+        "imageId": "172169"
+      },
+      {
+        "id": "287",
+        "rank": "20",
+        "name": "Papua New Guinea",
+        "rating": "8",
+        "matches": "26",
+        "points": "209",
+        "lastUpdatedOn": "2022-11-01",
+        "imageId": "172336"
+      }
+    ],
+    "appIndex": {
+      "seoTitle": "ICC Cricket Rankings - Top 100 Batsmen | Cricbuzz.com",
+      "webURL": "www.cricbuzz.com/cricket-stats/icc-rankings"
+    }
+  }

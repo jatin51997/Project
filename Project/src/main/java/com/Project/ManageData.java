@@ -4,7 +4,6 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,14 +15,25 @@ import org.json.JSONObject;
 
 public class ManageData {
 	private static int count = 0;
-	private static Connection con;
-	TDG tdg = new TDG();
+	TDG tdg = TDG.getInstance();
+
+	private static ManageData mngData;
+
+	private ManageData() {
+
+	}
+
+	public static ManageData getInstance() {
+		if (mngData == null) {
+			mngData = new ManageData();
+		}
+		return mngData;
+	}
 
 	public String fetchAndStoreAPIData() {
 
 		String url = "";
 		String response = "";
-		String query = "";
 
 		try {
 			url = "teams/v1/international";
@@ -108,8 +118,8 @@ public class ManageData {
 										ArrayList<String> parts = new ArrayList<>(Arrays.asList(input1.split(",")));
 										String val = parts.get(0);
 										if (val.equalsIgnoreCase("Innings") || val.equalsIgnoreCase("Runs")
-												|| val.equalsIgnoreCase("Average") || val.equalsIgnoreCase("Highest")
-												|| val.equalsIgnoreCase("SR")) {
+												|| val.equalsIgnoreCase("Highest") || val.equalsIgnoreCase("SR")
+												|| val.equalsIgnoreCase("Not Out")) {
 											toInsertTest.add(parts.get(1));
 											toInsertOdi.add(parts.get(2));
 											toInsertT20.add(parts.get(3));
@@ -120,20 +130,23 @@ public class ManageData {
 
 								BattingStats testStat = new BattingStats(player, Integer.parseInt(toInsertTest.get(0)),
 										Integer.parseInt(toInsertTest.get(1)), Integer.parseInt(toInsertTest.get(2)),
-										Double.parseDouble(toInsertTest.get(3)),
-										Double.parseDouble(toInsertTest.get(4)), 0, "TEST");
+										Double.parseDouble(toInsertTest.get(3)), 0, "TEST",
+										Integer.parseInt(toInsertTest.get(4)));
+
 								tdg.insertDataInDb(testStat);
 
 								BattingStats odiStat = new BattingStats(player, Integer.parseInt(toInsertOdi.get(0)),
 										Integer.parseInt(toInsertOdi.get(1)), Integer.parseInt(toInsertOdi.get(2)),
-										Double.parseDouble(toInsertOdi.get(3)), Double.parseDouble(toInsertOdi.get(4)),
-										1, "ODI");
+										Double.parseDouble(toInsertOdi.get(3)), 1, "ODI",
+										Integer.parseInt(toInsertTest.get(4)));
+
 								tdg.insertDataInDb(odiStat);
 
 								BattingStats t20Stat = new BattingStats(player, Integer.parseInt(toInsertT20.get(0)),
 										Integer.parseInt(toInsertT20.get(1)), Integer.parseInt(toInsertT20.get(2)),
-										Double.parseDouble(toInsertT20.get(3)), Double.parseDouble(toInsertT20.get(4)),
-										2, "T20");
+										Double.parseDouble(toInsertT20.get(3)), 2, "T20",
+										Integer.parseInt(toInsertTest.get(4)));
+
 								tdg.insertDataInDb(t20Stat);
 
 							} else if (type.equalsIgnoreCase("BOWLER")) {
@@ -157,8 +170,8 @@ public class ManageData {
 										ArrayList<String> parts = new ArrayList<>(Arrays.asList(input1.split(",")));
 										String val = parts.get(0);
 										if (val.equalsIgnoreCase("Innings") || val.equalsIgnoreCase("Wickets")
-												|| val.equalsIgnoreCase("Eco") || val.equalsIgnoreCase("SR")
-												|| val.equalsIgnoreCase("5w")) {
+												|| val.equalsIgnoreCase("SR") || val.equalsIgnoreCase("5w")
+												|| val.equalsIgnoreCase("Runs")) {
 											toInsertTest.add(parts.get(1));
 											toInsertOdi.add(parts.get(2));
 											toInsertT20.add(parts.get(3));
@@ -168,21 +181,24 @@ public class ManageData {
 								}
 
 								BowlingStats testStat = new BowlingStats(player, Integer.parseInt(toInsertTest.get(0)),
-										Integer.parseInt(toInsertTest.get(1)), Integer.parseInt(toInsertTest.get(4)),
-										Double.parseDouble(toInsertTest.get(2)),
-										Double.parseDouble(toInsertTest.get(3)), 0, "TEST");
+										Integer.parseInt(toInsertTest.get(2)), Integer.parseInt(toInsertTest.get(4)),
+										Double.parseDouble(toInsertTest.get(3)), 0, "TEST",
+										Integer.parseInt(toInsertTest.get(1)));
+
 								tdg.insertDataInDb(testStat);
 
 								BowlingStats odiStat = new BowlingStats(player, Integer.parseInt(toInsertOdi.get(0)),
-										Integer.parseInt(toInsertOdi.get(1)), Integer.parseInt(toInsertOdi.get(4)),
-										Double.parseDouble(toInsertOdi.get(2)), Double.parseDouble(toInsertOdi.get(3)),
-										1, "ODI");
+										Integer.parseInt(toInsertOdi.get(2)), Integer.parseInt(toInsertOdi.get(4)),
+										Double.parseDouble(toInsertOdi.get(3)), 1, "ODI",
+										Integer.parseInt(toInsertTest.get(1)));
+
 								tdg.insertDataInDb(odiStat);
 
 								BowlingStats t20Stat = new BowlingStats(player, Integer.parseInt(toInsertT20.get(0)),
-										Integer.parseInt(toInsertT20.get(1)), Integer.parseInt(toInsertT20.get(4)),
-										Double.parseDouble(toInsertT20.get(2)), Double.parseDouble(toInsertT20.get(3)),
-										2, "T20");
+										Integer.parseInt(toInsertT20.get(2)), Integer.parseInt(toInsertT20.get(4)),
+										Double.parseDouble(toInsertT20.get(3)), 2, "T20",
+										Integer.parseInt(toInsertTest.get(1)));
+
 								tdg.insertDataInDb(t20Stat);
 
 							}
@@ -196,11 +212,15 @@ public class ManageData {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 		try {
-			if (con != null) {
-				con.close();
-			}
+			url = "stats/v1/rankings/teams?formatType=test";
+			getAndSetRankings(url);
+
+			url = "stats/v1/rankings/teams?formatType=odi";
+			getAndSetRankings(url);
+
+			url = "stats/v1/rankings/teams?formatType=t20";
+			getAndSetRankings(url);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -233,6 +253,49 @@ public class ManageData {
 		}
 		System.out.println(response.body());
 		return response.body().toString();
+	}
+
+	public void getAndSetRankings(String url) {
+		try {
+			String response = getAPIResponse(url);
+			JSONObject objRankings = new JSONObject(response);
+			JSONArray arrRankings = objRankings.getJSONArray("rank");
+
+			int formatId = 0;
+			for (int i = 0; i < arrRankings.length() - 2; i++) {
+
+				String id = arrRankings.getJSONObject(i).getString("id");
+				String rank = arrRankings.getJSONObject(i).getString("rank");
+				String rating = "0";
+				String formatName = "";
+
+				if (!url.contains("t20")) {
+					rating = arrRankings.getJSONObject(i).getString("rating");
+				}
+				if (url.contains("test")) {
+					formatId = 0;
+					formatName = "TEST";
+				} else if (url.contains("odi")) {
+					formatId = 1;
+					formatName = "ODI";
+				} else if (url.contains("t20")) {
+					formatId = 2;
+					formatName = "T20";
+				}
+				String points = arrRankings.getJSONObject(i).getString("points");
+
+				TeamInfo team = new TeamInfo();
+				team.setTeamId(Integer.parseInt(id));
+
+				Rankings r = new Rankings(team, Integer.parseInt(rank), Integer.parseInt(rating),
+						Integer.parseInt(points), formatId, formatName);
+
+				tdg.insertDataInDb(r);
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

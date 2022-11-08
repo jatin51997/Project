@@ -9,6 +9,7 @@ import java.sql.Statement;
 
 public class TDG {
 	private static TDG tdg;
+	private static Connection con = null;
 
 	private TDG() {
 
@@ -22,17 +23,18 @@ public class TDG {
 	}
 
 	private static Connection getConnection() throws ClassNotFoundException, SQLException {
+		String path = System.getProperty("user.dir") + "/src/main/webapp/project.db";
+		path = "/Users/jatin/git/APPProject/APPproject/src/main/webapp/project.db";
+		if (con == null) {
+			Class.forName("org.sqlite.JDBC");
+			con = DriverManager.getConnection("jdbc:sqlite:" + path);
+		}
 
-		Connection con = null;
-		Class.forName("org.sqlite.JDBC");
-		con = DriverManager
-				.getConnection("jdbc:sqlite:/Users/jatin/Desktop/workspace/java/APPproject/src/main/webapp/project.db");
 		return con;
 
 	}
 
 	public ResultSet getDataFromDb(String tablename, String parameter) {
-		Connection con = null;
 		ResultSet rs = null;
 		try {
 
@@ -56,18 +58,18 @@ public class TDG {
 
 			} else if (tablename.equalsIgnoreCase("BATTINGSTATS")) {
 				query = "SELECT BATTINGSTATS.FORMATID,FORMATINFO.FORMATNAME,BATTINGSTATS.INNINGS,BATTINGSTATS.RUNS,"
-						+ "BATTINGSTATS.HIGHEST,BATTINGSTATS.AVERAGE,BATTINGSTATS.SR FROM PLAYERINFO INNER JOIN "
+						+ "BATTINGSTATS.HIGHEST,BATTINGSTATS.SR,BATTINGSTATS.NOTOUTS FROM PLAYERINFO INNER JOIN "
 						+ "TEAMINFO ON PLAYERINFO.TEAMID = TEAMINFO.TEAMID INNER JOIN BATTINGSTATS ON "
 						+ "BATTINGSTATS.PLAYERID=PLAYERINFO.PLAYERID  INNER JOIN FORMATINFO ON BATTINGSTATS.FORMATID=FORMATINFO.FORMATID "
 						+ "WHERE PLAYERINFO.PLAYERID ='" + parameter + "'";
 			} else if (tablename.equalsIgnoreCase("BOWLINGSTATS")) {
 				query = "SELECT BOWLINGSTATS.FORMATID,FORMATINFO.FORMATNAME,BOWLINGSTATS.INNINGS,BOWLINGSTATS.WICKETS,"
-						+ "BOWLINGSTATS.FIVEWICKETS,BOWLINGSTATS.ECONOMY,BOWLINGSTATS.SR FROM PLAYERINFO INNER JOIN "
+						+ "BOWLINGSTATS.FIVEWICKETS,BOWLINGSTATS.SR,BOWLINGSTATS.RUNS FROM PLAYERINFO INNER JOIN "
 						+ "TEAMINFO ON PLAYERINFO.TEAMID = TEAMINFO.TEAMID INNER JOIN BOWLINGSTATS ON "
 						+ "BOWLINGSTATS.PLAYERID=PLAYERINFO.PLAYERID  INNER JOIN FORMATINFO ON BOWLINGSTATS.FORMATID=FORMATINFO.FORMATID  "
 						+ "WHERE PLAYERINFO.PLAYERID ='" + parameter + "'";
 			}
-			con = this.getConnection();
+			Connection con = getConnection();
 			Statement stmnt = con.createStatement();
 			rs = stmnt.executeQuery(query);
 
@@ -78,7 +80,7 @@ public class TDG {
 	}
 
 	public void insertDataInDb(Object obj) {
-		Connection con = null;
+
 		try {
 			String query = "";
 
@@ -93,23 +95,23 @@ public class TDG {
 						+ player.getPlayerType() + "')";
 			} else if (obj.getClass() == BattingStats.class) {
 				BattingStats stat = (BattingStats) obj;
-				query = "INSERT INTO BATTINGSTATS(PLAYERID,INNINGS,RUNS,HIGHEST,AVERAGE,SR,FORMATID) values("
+				query = "INSERT INTO BATTINGSTATS(PLAYERID,INNINGS,RUNS,HIGHEST,SR,FORMATID,NOTOUTS) values("
 						+ stat.getPlayer().getPlayerId() + ", " + stat.getInnings() + "," + stat.getRuns() + ","
-						+ stat.getHighest() + "," + stat.getAverage() + "," + stat.getStrikeRate() + ","
-						+ stat.getFormatId() + ")";
+						+ stat.getHighest() + "," + stat.getStrikeRate() + "," + stat.getFormatId() + ","
+						+ stat.getNotOuts() + ")";
 			} else if (obj.getClass() == BowlingStats.class) {
 				BowlingStats stat = (BowlingStats) obj;
-				query = "INSERT INTO BOWLINGSTATS(PLAYERID,INNINGS,WICKETS,FIVEWICKETS,ECONOMY,SR,FORMATID) values("
+				query = "INSERT INTO BOWLINGSTATS(PLAYERID,INNINGS,WICKETS,FIVEWICKETS,SR,FORMATID,RUNS) values("
 						+ stat.getPlayer().getPlayerId() + ", " + stat.getInnings() + "," + stat.getWickets() + ","
-						+ stat.getFiveWickets() + "," + stat.getEconomy() + "," + stat.getStrikeRate() + ","
-						+ stat.getFormatId() + ")";
+						+ stat.getFiveWickets() + "," + stat.getStrikeRate() + "," + stat.getFormatId() + ","
+						+ stat.getRuns() + ")";
 			} else if (obj.getClass() == Rankings.class) {
 				Rankings r = (Rankings) obj;
 				query = "INSERT INTO RANKINGS(TEAMID,RANK,RATING,POINTS,FORMATID) values(" + r.getTeam().getTeamId()
 						+ "," + r.getRank() + "," + r.getRating() + "," + r.getPoints() + "," + r.getFormatId() + ")";
 			}
 
-			con = this.getConnection();
+			Connection con = getConnection();
 			PreparedStatement stmt = con.prepareStatement(query);
 			int records = stmt.executeUpdate();
 			System.out.println(records + " records inserted");
