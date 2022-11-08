@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css"> 
     <script src="myscript.js" defer></script>
-    <title>Cricbuzz - Get Stats</title>
+    <title>Cricket Stats And Rankings</title>
 </head>
 <body>
     <nav class="navbar background">
@@ -22,7 +22,9 @@
             <button class="btn btn-sm">Search</button> 
         </div>
     </nav>
-
+	<div id="loading">
+ <img src="loading-gif.gif" style="width:48px;height:48px;">
+	</div>
     <div id="team">
         <label for="teamName">Select Team </label>
         <select id="teamName">
@@ -51,8 +53,6 @@
     		<tbody></tbody>
 		</table>
     </div>
-    
-
-    
+        
 </body>
 </html>
