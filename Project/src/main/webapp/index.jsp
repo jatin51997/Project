@@ -23,24 +23,30 @@
         </div>
     </nav>
 
-  
+    <div id="team">
+        <label for="teamName">Select Team </label>
+        <select id="teamName">
+            <option disabled selected value> -- select an option -- </option>
+        </select>
+    </div>
+
+    <div id="player">
+        </select>
+        <label for="playerName">Select player </label>
+        <select id="playerName">
+           <option disabled selected value> -- select an option -- </option>
+        </select>
+    </div>
+    
+    <div id="rankings">
+        </select>
+        <label for="formatName">Select format </label>
+        <select id="formatName">
+           <option disabled selected value> -- select an option -- </option>
+        </select>
+    </div>
     
     <div id="statsTable">
-    	<table id="stats" class="stats">
-    		<tbody></tbody>
-		</table>
-    </div>
-    <div id="statsTable">
-    	<table id="stats" class="stats">
-    		<tbody></tbody>
-		</table>
-    </div>
-    
-<<<<<<< HEAD
-       
-=======
->>>>>>> branch 'master' of https://github.com/jatin51997/Project
-        <div id="statsTable87">
     	<table id="stats" class="stats">
     		<tbody></tbody>
 		</table>
