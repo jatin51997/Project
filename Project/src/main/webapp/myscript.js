@@ -9,6 +9,7 @@ var formats = document.getElementById("formatName");
 var teamName = ["India" , "Australia"];
 var formatName = ["TEST" , "ODI","T20"];
 
+
 makePostCall = function (url, orgdata) { // here the data and url are not hardcoded anymore
 	    return $.ajax({
 			type: "POST",
@@ -95,10 +96,11 @@ window.onload = function onLoadFun() {
        
         formats.appendChild(el);
     }
-    
+     $("#loading").show();
     makePostCall("servlet?id=fetchData", "")
     .success(function(data){
 	console.log(data);
+	 $("#loading").hide();
    })
     .fail(function(sender, message, details){
            alert("Sorry, something went wrong!");
