@@ -15,5 +15,6 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="/Users/jatin/Desktop/workspace/java/APP/lib/json-20220924.jar"/>
 	<classpathentry kind="lib" path="/Users/jatin/Desktop/workspace/java/APP/lib/sqlite-jdbc-3.39.3.0.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
