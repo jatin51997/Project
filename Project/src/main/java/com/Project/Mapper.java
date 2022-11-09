@@ -13,21 +13,21 @@ import java.util.Iterator;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class ManageData {
+public class Mapper {
 	private static int count = 0;
 	TDG tdg = TDG.getInstance();
 
-	private static ManageData mngData;
+	private static Mapper mapper;
 
-	private ManageData() {
+	private Mapper() {
 
 	}
 
-	public static ManageData getInstance() {
-		if (mngData == null) {
-			mngData = new ManageData();
+	public static Mapper getInstance() {
+		if (mapper == null) {
+			mapper = new Mapper();
 		}
-		return mngData;
+		return mapper;
 	}
 
 	public String fetchAndStoreAPIData() {

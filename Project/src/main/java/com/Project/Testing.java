@@ -19,7 +19,7 @@ class Testing {
 	private static int count = 0;
 	private static Connection con = null;
 
-	ManageData mngData = ManageData.getInstance();
+	Mapper mapper = Mapper.getInstance();
 	TDG tdg = TDG.getInstance();
 
 	@Test
@@ -102,7 +102,7 @@ class Testing {
 
 	@Test
 	void checkDataBaseQueries() throws Exception {
-		mngData.fetchAndStoreAPIData();
+		mapper.fetchAndStoreAPIData();
 		ResultSet rs = null;
 		rs = tdg.getDataFromDb("TEAMINFO", "ALL");
 		while (rs.next()) {
