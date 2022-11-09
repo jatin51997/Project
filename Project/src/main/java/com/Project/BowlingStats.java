@@ -103,7 +103,12 @@ public class BowlingStats extends PlayerInfo implements FormatInfo, Average {
 
 	@Override
 	public double getAverage() {
-		this.average = (this.runs) / (this.wickets);
+		if (this.wickets == 0) {
+			return 0;
+		} else {
+			this.average = (this.runs) / (this.wickets);
+		}
+
 		return this.average;
 
 	}

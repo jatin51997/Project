@@ -80,7 +80,12 @@ public class BattingStats extends PlayerInfo implements FormatInfo, Average {
 	}
 
 	public double getAverage() {
-		this.average = (this.runs) / ((this.innings) - (this.notOuts));
+		if ((this.innings) - (this.notOuts) == 0) {
+			return 0;
+		} else {
+			this.average = (this.runs) / ((this.innings) - (this.notOuts));
+		}
+
 		return this.average;
 	}
 

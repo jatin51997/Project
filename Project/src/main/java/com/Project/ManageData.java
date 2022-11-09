@@ -248,10 +248,14 @@ public class ManageData {
 
 		try {
 			response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+			if (response.statusCode() == 200) {
+				return response.body().toString();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		System.out.println(response.body());
+
 		return response.body().toString();
 	}
 
