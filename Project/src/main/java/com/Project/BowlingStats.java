@@ -1,6 +1,6 @@
 package com.Project;
 
-public class BowlingStats extends PlayerInfo implements FormatInfo, Average {
+public class BowlingStats implements FormatInfo, Average {
 	private int innings;
 	private int wickets;
 	private int fiveWickets;
@@ -98,7 +98,8 @@ public class BowlingStats extends PlayerInfo implements FormatInfo, Average {
 	public String toString() {
 		return this.player.toString() + "\n" + "innings: " + this.innings + "\n average: " + this.average
 				+ "\n wickets: " + this.wickets + "\n fiveWickets: " + this.fiveWickets + "\n strikeRate: "
-				+ this.strikeRate + "\n formatId: " + this.formatId + "\n formatName: " + this.formatName;
+				+ this.strikeRate + "\n formatId: " + this.formatId + "\n formatName: " + this.formatName + " \n runs:"
+				+ this.runs;
 	}
 
 	@Override
@@ -106,10 +107,8 @@ public class BowlingStats extends PlayerInfo implements FormatInfo, Average {
 		if (this.wickets == 0) {
 			return 0;
 		} else {
-			this.average = (this.runs) / (this.wickets);
+			return (this.runs) / (this.wickets);
 		}
-
-		return this.average;
 
 	}
 

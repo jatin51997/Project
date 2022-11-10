@@ -138,14 +138,14 @@ public class Mapper {
 								BattingStats odiStat = new BattingStats(player, Integer.parseInt(toInsertOdi.get(0)),
 										Integer.parseInt(toInsertOdi.get(1)), Integer.parseInt(toInsertOdi.get(2)),
 										Double.parseDouble(toInsertOdi.get(3)), 1, "ODI",
-										Integer.parseInt(toInsertTest.get(4)));
+										Integer.parseInt(toInsertOdi.get(4)));
 
 								tdg.insertDataInDb(odiStat);
 
 								BattingStats t20Stat = new BattingStats(player, Integer.parseInt(toInsertT20.get(0)),
 										Integer.parseInt(toInsertT20.get(1)), Integer.parseInt(toInsertT20.get(2)),
 										Double.parseDouble(toInsertT20.get(3)), 2, "T20",
-										Integer.parseInt(toInsertTest.get(4)));
+										Integer.parseInt(toInsertT20.get(4)));
 
 								tdg.insertDataInDb(t20Stat);
 
@@ -190,14 +190,14 @@ public class Mapper {
 								BowlingStats odiStat = new BowlingStats(player, Integer.parseInt(toInsertOdi.get(0)),
 										Integer.parseInt(toInsertOdi.get(2)), Integer.parseInt(toInsertOdi.get(4)),
 										Double.parseDouble(toInsertOdi.get(3)), 1, "ODI",
-										Integer.parseInt(toInsertTest.get(1)));
+										Integer.parseInt(toInsertOdi.get(1)));
 
 								tdg.insertDataInDb(odiStat);
 
 								BowlingStats t20Stat = new BowlingStats(player, Integer.parseInt(toInsertT20.get(0)),
 										Integer.parseInt(toInsertT20.get(2)), Integer.parseInt(toInsertT20.get(4)),
 										Double.parseDouble(toInsertT20.get(3)), 2, "T20",
-										Integer.parseInt(toInsertTest.get(1)));
+										Integer.parseInt(toInsertT20.get(1)));
 
 								tdg.insertDataInDb(t20Stat);
 

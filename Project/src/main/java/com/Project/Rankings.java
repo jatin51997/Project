@@ -1,6 +1,6 @@
 package com.Project;
 
-public class Rankings extends TeamInfo implements FormatInfo {
+public class Rankings implements FormatInfo {
 	private int rank;
 	private int rating;
 	private int points;

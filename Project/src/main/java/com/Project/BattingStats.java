@@ -1,6 +1,6 @@
 package com.Project;
 
-public class BattingStats extends PlayerInfo implements FormatInfo, Average {
+public class BattingStats implements FormatInfo, Average {
 	private int innings;
 	private int runs;
 	private int highest;
@@ -79,14 +79,13 @@ public class BattingStats extends PlayerInfo implements FormatInfo, Average {
 		this.highest = highest;
 	}
 
+	@Override
 	public double getAverage() {
-		if ((this.innings) - (this.notOuts) == 0) {
+		if (((this.innings) - (this.notOuts)) == 0) {
 			return 0;
 		} else {
-			this.average = (this.runs) / ((this.innings) - (this.notOuts));
+			return (this.runs) / ((this.innings) - (this.notOuts));
 		}
-
-		return this.average;
 	}
 
 	public double getStrikeRate() {
@@ -108,7 +107,7 @@ public class BattingStats extends PlayerInfo implements FormatInfo, Average {
 	public String toString() {
 		return this.player.toString() + "\n" + "innings: " + this.innings + "\n runs: " + this.runs + "\n highest: "
 				+ this.highest + "\n average: " + this.average + "\n strikeRate: " + this.strikeRate + "\n formatId: "
-				+ this.formatId + "\n formatName: " + this.formatName;
+				+ this.formatId + "\n formatName: " + this.formatName + "\n notouts: " + this.notOuts;
 	}
 
 }

@@ -23,8 +23,8 @@ public class TDG {
 	}
 
 	private static Connection getConnection() throws ClassNotFoundException, SQLException {
-		String path = System.getProperty("user.dir") + "/src/main/webapp/project.db";
-		path = "/Users/jatin/git/APPProject/APPproject/src/main/webapp/project.db";
+		String path = System.getProperty("user.dir") + "/src/main/webapp/Project.db";
+		path = "/Users/jatin/git/Project/Project/src/main/webapp/project.db";
 		if (con == null) {
 			Class.forName("org.sqlite.JDBC");
 			con = DriverManager.getConnection("jdbc:sqlite:" + path);

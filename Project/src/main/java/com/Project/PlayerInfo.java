@@ -1,6 +1,6 @@
 package com.Project;
 
-public class PlayerInfo extends TeamInfo {
+public class PlayerInfo {
 
 	public static void main(String[] args) {
 		System.out.println("Working Directory = " + System.getProperty("user.dir"));
