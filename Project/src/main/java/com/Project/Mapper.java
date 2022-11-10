@@ -241,11 +241,12 @@ public class Mapper {
 			e1.printStackTrace();
 		}
 		HttpRequest request = HttpRequest.newBuilder().uri(URI.create("https://cricbuzz-cricket.p.rapidapi.com/" + url))
-				.header("X-RapidAPI-Key", "8a3a579825mshd663133c8f17321p10734ajsn3f05a0ccd612")
+				.header("X-RapidAPI-Key", "ca21833e3bmshe6050b0f1e34bf4p16b24djsn7ab3ec5b25d8")
 				.header("X-RapidAPI-Host", "cricbuzz-cricket.p.rapidapi.com")
 				.method("GET", HttpRequest.BodyPublishers.noBody()).build();
 		HttpResponse<String> response = null;
-
+		// ca21833e3bmshe6050b0f1e34bf4p16b24djsn7ab3ec5b25d8
+		// 8a3a579825mshd663133c8f17321p10734ajsn3f05a0ccd612
 		try {
 			response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
 			if (response.statusCode() == 200) {
