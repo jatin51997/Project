@@ -58,6 +58,7 @@ public class servlet extends HttpServlet {
 
 		}
 
+		// Consolidate Duplicate Conditional Refactoring
 		response.setContentType("text/plain");
 
 		try {

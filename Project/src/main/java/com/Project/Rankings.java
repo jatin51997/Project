@@ -65,10 +65,12 @@ public class Rankings implements FormatInfo {
 		this.points = points;
 	}
 
+	// Replace inheritance with delegation refactoring
 	public TeamInfo getTeam() {
 		return team;
 	}
 
+	// Replace inheritance with delegation refactoring
 	public void setTeam(TeamInfo team) {
 		this.team = team;
 	}

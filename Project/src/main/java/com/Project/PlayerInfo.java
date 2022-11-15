@@ -1,5 +1,6 @@
 package com.Project;
 
+// Extract class refactoring, playerInfo has been split into battingStats and bowlingStats.
 public class PlayerInfo {
 
 	public static void main(String[] args) {
@@ -23,10 +24,12 @@ public class PlayerInfo {
 		this.playerType = playerType;
 	}
 
+	// Replace inheritance with delegation refactoring
 	public TeamInfo getTeam() {
 		return team;
 	}
 
+	// Replace inheritance with delegation refactoring
 	public void setTeam(TeamInfo team) {
 		this.team = team;
 	}

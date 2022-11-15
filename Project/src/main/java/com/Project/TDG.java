@@ -22,6 +22,7 @@ public class TDG {
 		return tdg;
 	}
 
+	// Extract Method refactoring
 	private static Connection getConnection() throws ClassNotFoundException, SQLException {
 		String path = System.getProperty("user.dir") + "/src/main/webapp/Project.db";
 		path = "/Users/jatin/git/Project/Project/src/main/webapp/project.db";
@@ -34,6 +35,7 @@ public class TDG {
 
 	}
 
+	// Extract Method refactoring
 	public ResultSet getDataFromDb(String tablename, String parameter) {
 		ResultSet rs = null;
 		try {
@@ -69,6 +71,7 @@ public class TDG {
 						+ "BOWLINGSTATS.PLAYERID=PLAYERINFO.PLAYERID  INNER JOIN FORMATINFO ON BOWLINGSTATS.FORMATID=FORMATINFO.FORMATID  "
 						+ "WHERE PLAYERINFO.PLAYERID ='" + parameter + "'";
 			}
+			// Extract Method refactoring
 			Connection con = getConnection();
 			Statement stmnt = con.createStatement();
 			rs = stmnt.executeQuery(query);
@@ -79,6 +82,7 @@ public class TDG {
 		return rs;
 	}
 
+	// Decompose Conditionals refactoring
 	public void insertDataInDb(Object obj) {
 
 		try {
@@ -111,6 +115,7 @@ public class TDG {
 						+ "," + r.getRank() + "," + r.getRating() + "," + r.getPoints() + "," + r.getFormatId() + ")";
 			}
 
+			// Consolidate Duplicate Conditional refactoring
 			Connection con = getConnection();
 			PreparedStatement stmt = con.prepareStatement(query);
 			int records = stmt.executeUpdate();

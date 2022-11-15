@@ -1,5 +1,6 @@
 package com.Project;
 
+//Extract class refactoring, playerInfo has been split into battingStats and bowlingStats.
 public class BattingStats implements FormatInfo, Average {
 	private int innings;
 	private int runs;
@@ -96,10 +97,12 @@ public class BattingStats implements FormatInfo, Average {
 		this.strikeRate = strikeRate;
 	}
 
+	// Replace inheritance with delegation refactoring
 	public PlayerInfo getPlayer() {
 		return player;
 	}
 
+	// Replace inheritance with delegation refactoring
 	public void setPlayer(PlayerInfo player) {
 		this.player = player;
 	}

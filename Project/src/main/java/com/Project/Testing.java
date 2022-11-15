@@ -38,6 +38,7 @@ class Testing {
 			System.out.println("Testing endpoint: " + url);
 			HttpResponse<String> response = getAPIResponse(url);
 			System.out.println("Response status Code: " + response.statusCode());
+			// Assertions refactoring
 			assertThat(response.statusCode()).isEqualTo(200);
 		}
 
@@ -59,6 +60,7 @@ class Testing {
 			java.util.Optional<String> firstValue = response.headers().firstValue("Content-Type");
 			String string = firstValue.get();
 			System.out.println("Response content type: " + string);
+			// Assertions refactoring
 			assertThat(string).startsWith("application/json");
 		}
 
